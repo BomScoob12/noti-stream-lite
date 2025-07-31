@@ -1,6 +1,7 @@
 package com.bomscoob.app.notistreamlite.publisher
 
 import com.bomscoob.app.notistreamlite.config.RabbitMQConfig
+import com.bomscoob.app.notistreamlite.model.ActionType
 import com.bomscoob.app.notistreamlite.model.NotificationMessage
 import com.bomscoob.app.notistreamlite.model.request.NotificationActionRequest
 import org.springframework.amqp.rabbit.core.RabbitTemplate
@@ -23,11 +24,11 @@ class NotificationPublisher(
      * Publishes a notification message to the email queue.
      * @param request the notification action request
      */
-    fun sendToEmail(request: NotificationActionRequest) {
+    fun sendToEmail(request: NotificationActionRequest, type: ActionType) {
         rabbitTemplate.convertAndSend(
             RabbitMQConfig.EXCHANGE_NAME,
             EMAIL_ROUTE_NAME,
-            buildNotificationMessage(request)
+            buildNotificationMessage(request, type)
         )
     }
 
@@ -35,11 +36,11 @@ class NotificationPublisher(
      * Publishes a notification message to the web queue.
      * @param request the notification action request
      */
-    fun sendToWeb(request: NotificationActionRequest) {
+    fun sendToWeb(request: NotificationActionRequest, type: ActionType) {
         rabbitTemplate.convertAndSend(
             RabbitMQConfig.EXCHANGE_NAME,
             WEB_ROUTE_NAME,
-            buildNotificationMessage(request)
+            buildNotificationMessage(request, type)
         )
     }
 
@@ -48,11 +49,11 @@ class NotificationPublisher(
      * @param request the notification action request
      * @return NotificationMessage
      */
-    private fun buildNotificationMessage(request: NotificationActionRequest): NotificationMessage {
+    private fun buildNotificationMessage(request: NotificationActionRequest, type: ActionType): NotificationMessage {
         return NotificationMessage(
             fromUser = request.fromUser,
             toUser = request.toUser,
-            type = request.type,
+            type = type.toString(),
             content = request.content,
             timestamp = LocalDateTime.now().toString()
         )

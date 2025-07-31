@@ -4,9 +4,9 @@ import com.bomscoob.app.notistreamlite.config.RabbitMQConfig
 import com.bomscoob.app.notistreamlite.model.NotificationMessage
 import com.bomscoob.app.notistreamlite.service.EmailService
 import org.springframework.amqp.rabbit.annotation.RabbitListener
-import org.springframework.stereotype.Service
+import org.springframework.stereotype.Component
 
-@Service
+@Component
 class EmailNotificationConsumer(
     private val emailService: EmailService,
 ) {
