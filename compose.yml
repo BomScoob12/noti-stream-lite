@@ -1,7 +1,7 @@
 version: '3.8'
 services:
   rabbitmq:
-    image: rabbitmq:latest
+    image: rabbitmq:3.12.13-management
     container_name: rabbitmq
     ports:
       - "5672:5672"
@@ -11,7 +11,7 @@ services:
       RABBITMQ_DEFAULT_PASS: password
     healthcheck:
       test: rabbitmq-diagnostics -q ping
-      interval: 30s
+      interval: 10s
       timeout: 30s
       retries: 3
     volumes:
