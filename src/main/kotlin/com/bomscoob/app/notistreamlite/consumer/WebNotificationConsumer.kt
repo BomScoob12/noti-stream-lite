@@ -13,8 +13,8 @@ class WebNotificationConsumer(
     @RabbitListener(queues = [RabbitMQConfig.WEB_QUEUE_NAME])
     fun receiveWebNotification(message: NotificationMessage) {
         println(
-            "Received Web Notification from ${'$'}{message.fromUser}, to ${'$'}{message.toUser}, " +
-            "content: ${'$'}{message.content}, timestamp: ${'$'}{message.timestamp}"
+            "Received Web Notification from ${message.fromUser}, to ${message.toUser}, " +
+            "content: ${message.content}, timestamp: ${message.timestamp}"
         )
         ssePushService.sendNotificationToUser(message)
     }
